@@ -12,6 +12,27 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
+// DELETEs the blob
+func blobDelete(w http.ResponseWriter, r *http.Request, ps httprouter.Params, c BlobRequestContext) {
+	container := ps.ByName("container")
+	blob := ps.ByName("blob")
+	blobPath := filepath.Join(blobBase, container, blob)
+	if filepath.Clean(blobPath) != blobPath {
+		log.Printf("Bad path %s", blobPath)
+		http.Error(w, "Bad Request", 400)
+	}
+
+	err := os.Remove(blobPath)
+	if err != nil && os.IsNotExist(err) {
+		http.Error(w, "File Not Found", 404)
+		return
+	} else if err != nil {
+		panic(err)
+	}
+
+	http.Error(w, "Accepted", 202)
+}
+
 // GETs the blob
 func blobGet(w http.ResponseWriter, r *http.Request, ps httprouter.Params, c BlobRequestContext) {
 	container := ps.ByName("container")

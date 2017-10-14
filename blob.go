@@ -197,6 +197,8 @@ func blobAPIRoute(h blobAPIRouteHandle) httprouter.Handle {
 				canonicalizedResource += fmt.Sprintf("%s:%s", paramName, strings.Join(paramValues, ","))
 			}
 
+			canonicalizedResource = strings.TrimRight(canonicalizedResource, "\n")
+
 			stringToSign += canonicalizedHeaders
 			stringToSign += canonicalizedResource
 
@@ -220,6 +222,7 @@ func initBlobRoutes() {
 	prefix := "/devstoreaccount1"
 	router := httprouter.New()
 
+	router.DELETE(prefix+"/:container/:blob", blobAPIRoute(blobDelete))
 	router.GET(prefix+"/:container/:blob", blobAPIRoute(blobGet))
 	router.PUT(prefix+"/:container/:blob", blobAPIRoute(blobPut))
 
