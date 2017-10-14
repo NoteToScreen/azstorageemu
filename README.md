@@ -1,6 +1,8 @@
 # azstorageemu
 Cross-platform Azure Blob Storage emulator, written in Go. Tries to be somewhat compatible with the [official emulator](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-emulator).
 
+Portions of this code are based off of the [Azure SDK for Go](https://github.com/Azure/azure-sdk-for-go), which is licensed under the [Apache License](https://github.com/Azure/azure-sdk-for-go/blob/master/LICENSE).
+
 ## Warning
 This is intended to only be an emulator, for development purposes. You shouldn't actually use it in production, as it is not very secure/scalable. (has a fixed secret key, doesn't have any way of setting permissions on blobs/containers, no metadata, and more)
 

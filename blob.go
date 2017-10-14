@@ -25,6 +25,48 @@ var blobBase string
 
 type blobAPIRouteHandle func(http.ResponseWriter, *http.Request, httprouter.Params, BlobRequestContext)
 
+type BlobResult struct {
+	Name       string
+	Snapshot   time.Time
+	Properties BlobPropertiesResult
+	Metadata   string
+}
+
+type BlobPropertiesResult struct {
+	LastModified          TimeRFC1123 `xml:"Last-Modified"`
+	Etag                  string      `xml:"Etag"`
+	ContentMD5            string      `xml:"Content-MD5" header:"x-ms-blob-content-md5"`
+	ContentLength         int64       `xml:"Content-Length"`
+	ContentType           string      `xml:"Content-Type" header:"x-ms-blob-content-type"`
+	ContentEncoding       string      `xml:"Content-Encoding" header:"x-ms-blob-content-encoding"`
+	CacheControl          string      `xml:"Cache-Control" header:"x-ms-blob-cache-control"`
+	ContentLanguage       string      `xml:"Cache-Language" header:"x-ms-blob-content-language"`
+	ContentDisposition    string      `xml:"Content-Disposition" header:"x-ms-blob-content-disposition"`
+	BlobType              BlobType    `xml:"BlobType"`
+	SequenceNumber        int64       `xml:"x-ms-blob-sequence-number"`
+	CopyID                string      `xml:"CopyId"`
+	CopyStatus            string      `xml:"CopyStatus"`
+	CopySource            string      `xml:"CopySource"`
+	CopyProgress          string      `xml:"CopyProgress"`
+	CopyCompletionTime    TimeRFC1123 `xml:"CopyCompletionTime"`
+	CopyStatusDescription string      `xml:"CopyStatusDescription"`
+	LeaseStatus           string      `xml:"LeaseStatus"`
+	LeaseState            string      `xml:"LeaseState"`
+	LeaseDuration         string      `xml:"LeaseDuration"`
+	ServerEncrypted       bool        `xml:"ServerEncrypted"`
+	IncrementalCopy       bool        `xml:"IncrementalCopy"`
+}
+
+// BlobType defines the type of the Azure Blob.
+type BlobType string
+
+// Types of page blobs
+const (
+	BlobTypeBlock  BlobType = "BlockBlob"
+	BlobTypePage   BlobType = "PageBlob"
+	BlobTypeAppend BlobType = "AppendBlob"
+)
+
 type BlobRequestContext struct {
 }
 
@@ -181,6 +223,7 @@ func initBlobRoutes() {
 	router.GET(prefix+"/:container/:blob", blobAPIRoute(blobGet))
 	router.PUT(prefix+"/:container/:blob", blobAPIRoute(blobPut))
 
+	router.GET(prefix+"/:container", blobAPIRoute(blobContainerGet))
 	router.PUT(prefix+"/:container", blobAPIRoute(blobContainerPut))
 
 	router.NotFound = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

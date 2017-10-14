@@ -5,6 +5,16 @@ import (
 	"net/http"
 )
 
+type BlobEnumerationResults struct {
+	XMLName    xml.Name     `xml:"EnumerationResults"`
+	Prefix     string       `xml:"Prefix"`
+	Marker     string       `xml:"Marker"`
+	MaxResults int64        `xml:"MaxResults"`
+	Delimiter  string       `xml:"Delimiter"`
+	Blobs      []BlobResult `xml:"Blobs>Blob"`
+	NextMarker string       `xml:"NextMarker"`
+}
+
 type BlobErrorResponse struct {
 	Code    string
 	Message string
