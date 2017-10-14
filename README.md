@@ -9,11 +9,15 @@ This is intended to only be an emulator, for development purposes. You shouldn't
 It's also not a very accurate emulator (the response bodies are not the same as the XML that real Azure storage responds with, mainly because it's not documented very well by Microsoft)
 
 ## Supported things
+* GET a container (list its blobs)
+* PUT a container (create it)
 * GET a blob (but all blobs are assumed to be private)
-* PUT a blob, block, or block list (except block lists support only includes `Uncommitted` blocks)
+* PUT a block blob, block, or block list (except block lists support only includes `Uncommitted` blocks)
+* DELETE a blob
 * Authentication with an `Authorization` header or a [Service SAS](https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas)
 
 ## Unsupported things
+* Append or page blobs
 * Basically every other Blob API call
 * Using an [Account SAS](https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas)
 * Queue and Table storage
