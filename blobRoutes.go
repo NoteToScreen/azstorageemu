@@ -44,7 +44,12 @@ func blobGet(w http.ResponseWriter, r *http.Request, ps httprouter.Params, c Blo
 	}
 
 	blobData, err := ioutil.ReadFile(blobPath)
-	check(err)
+	if err != nil && os.IsNotExist(err) {
+		http.Error(w, "File Not Found", 404)
+		return
+	} else if err != nil {
+		panic(err)
+	}
 	defer r.Body.Close()
 
 	if r.Form.Get("rscd") != "" {
