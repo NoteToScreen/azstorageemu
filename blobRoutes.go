@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/julienschmidt/httprouter"
@@ -124,6 +125,7 @@ func blobPut(w http.ResponseWriter, r *http.Request, ps httprouter.Params, c Blo
 // Handles a GET on a container (lists blobs)
 func blobContainerGet(w http.ResponseWriter, r *http.Request, ps httprouter.Params, c BlobRequestContext) {
 	container := ps.ByName("container")
+	prefix := r.FormValue("prefix")
 
 	containerPath := filepath.Join(blobBase, container)
 	if filepath.Clean(containerPath) != containerPath {
@@ -138,6 +140,9 @@ func blobContainerGet(w http.ResponseWriter, r *http.Request, ps httprouter.Para
 
 	for _, file := range containerInfo {
 		if !file.IsDir() {
+			if prefix != "" && !strings.HasPrefix(file.Name(), prefix) {
+				continue
+			}
 			blobs = append(blobs, BlobResult{
 				Name:     file.Name(),
 				Snapshot: time.Now(),

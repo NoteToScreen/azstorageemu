@@ -186,6 +186,7 @@ func blobAPIRoute(h blobAPIRouteHandle) httprouter.Handle {
 				lowerToOriginalCase[strings.ToLower(name)] = name
 				params = append(params, strings.ToLower(name))
 			}
+			sort.Strings(params)
 			first := true
 			for _, paramName := range params {
 				if first {
