@@ -117,8 +117,10 @@ func blobPut(w http.ResponseWriter, r *http.Request, ps httprouter.Params, c Blo
 
 		http.Error(w, "Created", 201)
 	} else {
-		log.Println("PUT-ing a blob directly is not supported")
-		http.Error(w, "Internal Server Error", 500)
+		err = ioutil.WriteFile(blobPath, blobData, 0777)
+		check(err)
+
+		http.Error(w, "Created", 201)
 	}
 }
 
