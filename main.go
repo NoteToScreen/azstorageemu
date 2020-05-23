@@ -28,5 +28,8 @@ func main() {
 	check(InitBlob(blobPath))
 
 	log.Printf("Blob storage listening on port %d...", config.BlobStorage.Port)
-	http.ListenAndServe(fmt.Sprintf(":%d", config.BlobStorage.Port), nil)
+	err = http.ListenAndServe(fmt.Sprintf(":%d", config.BlobStorage.Port), nil)
+	if err != nil {
+		panic(err)
+	}
 }
