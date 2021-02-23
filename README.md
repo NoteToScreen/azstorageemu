@@ -1,5 +1,5 @@
 # azstorageemu
-![CI status](https://github.com/NoteToScreen/azstorageemu/workflows/CI/badge.svg)
+[![CI status](https://github.com/NoteToScreen/azstorageemu/workflows/CI/badge.svg)](https://github.com/NoteToScreen/azstorageemu/actions)
 
 Cross-platform Azure Blob Storage emulator, written in Go. Tries to be somewhat compatible with the [official emulator](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-emulator).
 
