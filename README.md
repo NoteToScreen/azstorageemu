@@ -1,4 +1,6 @@
 # azstorageemu
+![CI status](https://github.com/NoteToScreen/azstorageemu/workflows/CI/badge.svg)
+
 Cross-platform Azure Blob Storage emulator, written in Go. Tries to be somewhat compatible with the [official emulator](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-emulator).
 
 Portions of this code are based off of the [Azure SDK for Go](https://github.com/Azure/azure-sdk-for-go), which is licensed under the [Apache License](https://github.com/Azure/azure-sdk-for-go/blob/master/LICENSE).
